@@ -27,11 +27,13 @@ function boxClicked(e) {
 
             winning_blocks.map( box => boxes[box].style.backgroundColor=winnerIndicator)
             isGameActive = false;
+            setTimeout(restart, 5000);
             return 
         }
         if (checkTie()) {
             playerText.innerHTML = `It's a tie!`;
             isGameActive = false;
+            setTimeout(restart, 5000);
             return;
         }
         
@@ -73,6 +75,7 @@ restartBtn.addEventListener('click', restart)
 function restart() {
     spaces.fill(null)
     isGameActive = true;
+    
 
     boxes.forEach( box => {
         box.innerText = ''
