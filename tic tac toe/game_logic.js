@@ -76,6 +76,7 @@ function restart() {
     spaces.fill(null)
     isGameActive = true;
     
+    
 
     boxes.forEach( box => {
         box.innerText = ''
