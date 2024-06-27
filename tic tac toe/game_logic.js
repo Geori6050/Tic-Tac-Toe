@@ -8,6 +8,7 @@ const O_TEXT = "O"
 const X_TEXT = "X"
 let currentPlayer = X_TEXT
 let spaces = Array(9).fill(null)
+let isGameActive = true
 
 const startGame = () => {
     boxes.forEach(box => box.addEventListener('click', boxClicked))
@@ -16,7 +17,7 @@ const startGame = () => {
 function boxClicked(e) {
     const id = e.target.id
 
-    if(!spaces[id]){
+    if(!spaces[id] && isGameActive){
         spaces[id] = currentPlayer
         e.target.innerText = currentPlayer
 
@@ -25,12 +26,21 @@ function boxClicked(e) {
             let winning_blocks = playerHasWon()
 
             winning_blocks.map( box => boxes[box].style.backgroundColor=winnerIndicator)
-            return
+            isGameActive = false;
+            return 
         }
+        if (checkTie()) {
+            playerText.innerHTML = `It's a tie!`;
+            isGameActive = false;
+            return;
+        }
+        
+        
 
         currentPlayer = currentPlayer == X_TEXT ? O_TEXT : X_TEXT
     }
 }
+
 
 const winningCombos = [
     [0,1,2],
@@ -54,10 +64,15 @@ function playerHasWon() {
     return false
 }
 
+function checkTie() {
+    return spaces.every(cell => cell !== null) && playerHasWon() === false;
+}
+
 restartBtn.addEventListener('click', restart)
 
 function restart() {
     spaces.fill(null)
+    isGameActive = true;
 
     boxes.forEach( box => {
         box.innerText = ''
